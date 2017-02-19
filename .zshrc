@@ -9,9 +9,12 @@ zplug 'dracula/zsh', as:theme
 
 # zplug "zsh-users/zsh-syntax-highlighting", nice:10
 
-zplug "zsh-users/zsh-completions"
+# zplug "zsh-users/zsh-completions"
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+# completion
+zplug "lib/completion", from:oh-my-zsh
 
 # git
 zplug 'plugins/git', from:oh-my-zsh
