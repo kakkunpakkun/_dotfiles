@@ -1,0 +1,8 @@
+{
+    "rust.racerPath": "/Users/kakkunpakkun/.cargo/bin/racer",
+    "rust.rustfmtPath": "/Users/kakkunpakkun/.cargo/bin/rustfmt",
+    "rust.rustsymPath": "/Users/kakkunpakkun/.cargo/bin/rustsym",
+    "rust.rustLangSrcPath": null,
+    "rust.cargoPath": null,
+    "rust.formatOnSave": true
+}
