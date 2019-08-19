@@ -1,0 +1,50 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: install zsh
+      apt: pkg=zsh state=installed
+      become: yes
+
+    - name: set zsh as default shell for vagrant user
+      command: chsh -s '/usr/bin/zsh' {{ ansible_env.USER }}
+      become: yes
+      changed_when: false
+
+    - name: "Rust | Install"
+      shell: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
+      changed_when: false
+    
+    - name: "PPA nodejs"
+      shell: "sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -"
+      changed_when: false
+      become: yes
+
+    - name: install nodejs
+      apt: pkg=nodejs state=installed
+      become: yes
+    
+    - name: "install rbenv"
+      shell: "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
+      changed_when: false
+      ignore_errors: yes
+
+    
+    - name: "init rbenv"
+      shell: ~/.rbenv/bin/rbenv init
+      changed_when: true
+      ignore_errors: yes
+
+    - name: "install ruby-build"
+      shell: mkdir -p "$(rbenv root)"/plugins & git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+      ignore_errors: yes
+
+    - name: "install latest ruby"
+      shell: rbenv install $(rbenv install -l | grep -v - | tail -1)
+      ignore_errors: yes
+
+    - name: "install zplug"
+      shell: curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+      ignore_errors: yes
+
+    - name: "install exa"
+      shell: cargo install exa

@@ -7,10 +7,6 @@ source ~/.zplug/init.zsh
 # Load theme file
 zplug 'dracula/zsh', as:theme
 
-# zplug "zsh-users/zsh-syntax-highlighting", nice:10
-
-# zplug "zsh-users/zsh-completions"
-
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # completion
@@ -36,4 +32,8 @@ if ! zplug check --verbose; then
 fi
 
 # Then, source plugins and add commands to $PATH
-zplug load --verbose
+zplug load
+
+alias ls='exa --group-directories-first'
+alias la='exa -ahl --git --time-style=iso --group-directories-first'
+alias ll='exa -hl --git  --group-directories-first'
