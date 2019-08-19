@@ -37,3 +37,5 @@ zplug load
 alias ls='exa --group-directories-first'
 alias la='exa -ahl --git --time-style=iso --group-directories-first'
 alias ll='exa -hl --git --time-style=iso --group-directories-first'
+
+export PROMPT="%{$fg_bold[blue]%}${HOST} $PROMPT"
