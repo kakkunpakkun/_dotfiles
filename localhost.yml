@@ -1,6 +1,7 @@
 - hosts: localhost
   connection: local
   tasks:
+    # zsh
     - name: install zsh
       apt: pkg=zsh state=installed
       become: yes
@@ -10,10 +11,12 @@
       become: yes
       changed_when: false
 
+    # Rust
     - name: "Rust | Install"
       shell: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
       changed_when: false
     
+    # node (nbenvとかnodebrewの方が良いんだろうな)
     - name: "PPA nodejs"
       shell: "sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -"
       changed_when: false
@@ -23,12 +26,12 @@
       apt: pkg=nodejs state=installed
       become: yes
     
+    # Ruby
     - name: "install rbenv"
       shell: "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       changed_when: false
       ignore_errors: yes
 
-    
     - name: "init rbenv"
       shell: ~/.rbenv/bin/rbenv init
       changed_when: true
@@ -42,9 +45,11 @@
       shell: rbenv install $(rbenv install -l | grep -v - | tail -1)
       ignore_errors: yes
 
+    # zplug
     - name: "install zplug"
       shell: curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
       ignore_errors: yes
 
+    # exa
     - name: "install exa"
       shell: cargo install exa
