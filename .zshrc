@@ -1,5 +1,7 @@
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.tfenv/bin:$PATH"
+
 eval "$(rbenv init -)"
 
 source ~/.zplug/init.zsh
@@ -38,4 +40,12 @@ alias ls='exa --group-directories-first'
 alias la='exa -ahl --git --time-style=iso --group-directories-first'
 alias ll='exa -hl --git --time-style=iso --group-directories-first'
 
+function git(){hub "$@"}
+
 export PROMPT="%{$fg_bold[yellow]%}${HOST} $PROMPT"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kaku-junichi/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kaku-junichi/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kaku-junichi/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kaku-junichi/google-cloud-sdk/completion.zsh.inc'; fi
