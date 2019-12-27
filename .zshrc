@@ -1,6 +1,7 @@
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 eval "$(rbenv init -)"
 
@@ -39,6 +40,7 @@ zplug load
 alias ls='exa --group-directories-first'
 alias la='exa -ahl --git --time-style=iso --group-directories-first'
 alias ll='exa -hl --git --time-style=iso --group-directories-first'
+alias cdw='cd ~/Workspace'
 
 function git(){hub "$@"}
 
