@@ -1,48 +1,60 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# read zinit
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.tfenv/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+export PATH=$PATH:/usr/local/kubebuilder/bin
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
 
 eval "$(rbenv init -)"
 
-source ~/.zplug/init.zsh
-
 # Load theme file
-zplug 'dracula/zsh', as:theme
+zinit light 'dracula/zsh'
 
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zinit light 'zdharma/fast-syntax-highlighting'
 
 # completion
-zplug "zsh-users/zsh-completions"
+zinit light "zsh-users/zsh-completions"
 
 # git
-zplug 'plugins/git', from:oh-my-zsh
+zinit snippet OMZP::git
 
 # lsa, ll, etc
-zplug 'plugins/common-aliases', from:oh-my-zsh
-
-zplug 'plugins/tmux', from:oh-my-zsh
+zinit snippet OMZP::common-aliases
 
 # history
-zplug "zsh-users/zsh-history-substring-search"
+zinit light  "zsh-users/zsh-history-substring-search"
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+# seach histoty with peco
+zinit light "jimeh/zsh-peco-history"
+
+# install poweline
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Then, source plugins and add commands to $PATH
-zplug load
 
 alias ls='exa --group-directories-first'
 alias la='exa -ahl --git --time-style=iso --group-directories-first'
 alias ll='exa -hl --git --time-style=iso --group-directories-first'
+alias k='kubectl'
 alias cdw='cd ~/Workspace'
+alias cf='code -n ~/.zshrc'
 
-function git(){hub "$@"}
 
 # PROMPT setting
 export PROMPT="%{$fg_bold[yellow]%}${HOST} %F{green}[%T]%f $PROMPT"
@@ -64,15 +76,31 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # 補完リストの表示間隔を狭くする
 setopt list_packed
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kaku-junichi/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kaku-junichi/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kaku-junichi/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kaku-junichi/google-cloud-sdk/completion.zsh.inc'; fi
-
 # Load Git completion
 # from https://medium.com/@oliverspryn/adding-git-completion-to-zsh-60f3b0e7ffbc
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit && compinit
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
